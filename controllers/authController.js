@@ -38,10 +38,14 @@ const login = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials');
   }
-  const tokenUser = createTokenUser(user);
-  attachCookiesToResponse({ res, user: tokenUser });
+  // const tokenUser = createTokenUser(user);
+  // attachCookiesToResponse({ res, user: tokenUser });
 
-  res.status(StatusCodes.OK).json({ user: tokenUser });
+  // res.status(StatusCodes.OK).json({ user: tokenUser });
+
+  const tokenUser = { name:user.name, userid:user._id, role:user.role }
+  attachCookiesToResponse({res,user:tokenUser})
+  res.status(StatusCodes.CREATED).json({ user: tokenUser});
 };
 
 const logout = async (req, res) => {
